@@ -9,7 +9,6 @@ public class Preguiça extends Animal{
 
 	@Override
 	public String emitirSom() {
-	
 		return "vocalização";
 	}
 	
