@@ -34,7 +34,7 @@ public class Loja {
 			sexo = ler.next().toUpperCase().charAt(0);
 		}
 		
-		Cliente cliente = new Cliente(nome,sexo);
+		Cliente cliente = new Cliente(,);
 		
 		System.out.print("\nCOMANDOS:\na = Adicionar produto ao carrinho\nr = Retirar produto do carrinho\nc = Exibir o carrinho de compras\nf = Finalizar compra\ns = Sair\n");
 		System.out.print("\nDigite o que deseja: ");
