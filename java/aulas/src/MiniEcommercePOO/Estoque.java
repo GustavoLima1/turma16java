@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Estoque {
-	
+ 
 	private List <Produto> produtos = new ArrayList<>();
 	
 	public int encontrarIndice(String codProduto) {
@@ -89,6 +89,4 @@ public class Estoque {
 		}
 	}
 	
-	
-
 }

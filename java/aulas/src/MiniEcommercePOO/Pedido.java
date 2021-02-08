@@ -40,8 +40,9 @@ public class Pedido {
 		return carrinho.get(indice).getQuantidade();
 	}
 	
+	
 	public void imprimirCarrinho() {
-		System.out.print("\n\n|\tCOD\t|\tPreço\t|   Quantidade No Seu Carrinho\n");
+		System.out.print("\n**CARRINHO**:\n\n|\tCOD\t|\tPreço\t|   Quantidade No Seu Carrinho\n");
 		for (Produto p : carrinho) {
 			System.out.print("|\t" + p.getCodigo() + "\t|\t" + p.getPrecoUnitario() + "\t|\t" + p.getQuantidade() +"\n");
 		}
@@ -134,5 +135,5 @@ public class Pedido {
 	           System.out.println("----------------------------------------------------\n"
 	   	            +"total: \t " );
 	}
-	}
-		
+
+}

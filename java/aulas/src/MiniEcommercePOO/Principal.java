@@ -3,18 +3,18 @@ package MiniEcommercePOO;
 import java.util.Scanner;
 
 public class Principal {
-
-public static void main(String[] args) {
-		
+	public static void main(String[] args) {
+	
 		Scanner ler = new Scanner(System.in);
 		
 		Estoque estoque = new Estoque();
 		estoque.inicializarComValoresPadrao();
-		
+	
 		char comando;
 		String codProduto;
 		int qtdProduto;
 		char comandoExterno;
+		
 		do { //loop principal. Sempre que inicia, os dados do usuário começam zerados
 			Cliente cliente = new Cliente();
 			Pedido pedido = new Pedido();
@@ -58,20 +58,26 @@ public static void main(String[] args) {
 					if (indiceEstoque > -1) { //verifica se o código do produto foi encontrado ou não
 						do {
 							System.out.print("\nQUANTIDADE DO PRODUTO: ");
-							qtdProduto = ler.nextInt();
-							boolean result = pedido.adicionarProdutos(codProduto, qtdProduto, estoque);
-							linha(90);
-							if (result) {
-								System.out.print("\n\n\n***PRODUTO ADICIONADO AO CARRINHO***\n\n\n");
-								comando = 'n';
-							}
-							else {
-								if (estoque.qtdProdutosIndice(indiceEstoque) > 0) {
-									System.out.print("\nHÁ APENAS " + estoque.qtdProdutosIndice(indiceEstoque) + " UNIDADES DISPONÍVEIS\nDESEJA ADICIONAR OUTRA QUANTIDADE? [s/n]: ");
-									comando = ler.next().toLowerCase().charAt(0);
+							try {
+								qtdProduto = ler.nextInt();
+								boolean result = pedido.adicionarProdutos(codProduto, qtdProduto, estoque);
+								linha(90);
+								if (result) {
+									System.out.print("\n\n\n***PRODUTO ADICIONADO AO CARRINHO***\n\n\n");
+									comando = 'n';
 								}
-								else
-									System.out.print("\nPRODUTO ESGOTADO\n");
+								else {
+									if (estoque.qtdProdutosIndice(indiceEstoque) > 0) {
+										System.out.print("\nHÁ APENAS " + estoque.qtdProdutosIndice(indiceEstoque) + " UNIDADES DISPONÍVEIS\nDESEJA ADICIONAR OUTRA QUANTIDADE? [s/n]: ");
+										comando = ler.next().toLowerCase().charAt(0);
+									}
+									else
+										System.out.print("\nPRODUTO ESGOTADO\n");
+								}
+							}
+							catch (Exception e) {
+								System.out.print("\nQUANTIDADE INVALIDA!\n");
+								ler.nextLine();
 							}
 						} while (comando == 's');
 					}
@@ -88,20 +94,26 @@ public static void main(String[] args) {
 					if (indiceCarrinho > -1) { //verifica se o código do produto existe no carrinho
 						do {
 							System.out.print("\nQUANTIDADE A REMOVER: ");
-							qtdProduto = ler.nextInt();
-							boolean result = pedido.removerProdutos(codProduto, qtdProduto, estoque);
-							linha(90);
-							if (result) {
-								System.out.print("\n\n\n***PRODUTO(S) RETIRADO(S) DO CARRINHO***\n\n\n");
-								comando = 'n';
-							}
-							else {
-								if (pedido.qtdProdutosIndice(indiceCarrinho) > 0) {
-									System.out.print("\nHÁ APENAS " + pedido.qtdProdutosIndice(indiceCarrinho) + " UNIDADES DISPONÍVEIS\nDESEJA ADICIONAR OUTRA QUANTIDADE? [s/n]: ");
-									comando = ler.next().toLowerCase().charAt(0);
+							try {
+								qtdProduto = ler.nextInt();
+								boolean result = pedido.removerProdutos(codProduto, qtdProduto, estoque);
+								linha(90);
+								if (result) {
+									System.out.print("\n\n\n***PRODUTO(S) RETIRADO(S) DO CARRINHO***\n\n\n");
+									comando = 'n';
 								}
-								else
-									System.out.print("\n\n***NÃO HÁ PRODUTOS DESTE TIPO NO SEU CARRINHO***\n\n");
+								else {
+									if (pedido.qtdProdutosIndice(indiceCarrinho) > 0) {
+										System.out.print("\nHÁ APENAS " + pedido.qtdProdutosIndice(indiceCarrinho) + " UNIDADES DISPONÍVEIS\nDESEJA REMOVER OUTRA QUANTIDADE? [s/n]: ");
+										comando = ler.next().toLowerCase().charAt(0);
+									}
+									else
+										System.out.print("\n\n***NÃO HÁ PRODUTOS DESTE TIPO NO SEU CARRINHO***\n\n");
+								}
+							}
+							catch (Exception e) {
+								System.out.print("\nQUANTIDADE INVALIDA!\n");
+								ler.nextLine();
 							}
 						} while (comando == 's');
 					}
@@ -127,10 +139,10 @@ public static void main(String[] args) {
 					System.out.printf("\nTotal Geral: R$ %.2f + IMPOSTO (9%%): R$ %.2f  Total com imposto: R$ %.2f \n",pagamento.getTotalGeral(),pagamento.valorImposto(),pagamento.totalComImposto());
 					System.out.printf("\nEscolha a forma de pagamento\n");
 					System.out.print("\n1- ZERAR CARRINHO");
-					System.out.printf("\n2- A VISTA - 10%% DESCONTO: R$%.2f",pagamento.pagarAVista(pagamento.totalComImposto()));	
-					System.out.printf("\n3- CARTÃO - 1 VEZ:  R$%.2f SEM DESCONTO", pagamento.pagarCartao1Vez(pagamento.totalComImposto()));
-					System.out.printf("\n4- CARTÃO - 2 VEZES - JUROS (10%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao2Vezes(pagamento.totalComImposto())/2),pagamento.pagarCartao2Vezes(pagamento.totalComImposto()));
-					System.out.printf("\n5- CARTÃO - 3 VEZES - JUROS (15%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao3Vezes(pagamento.totalComImposto())/3),pagamento.pagarCartao3Vezes(pagamento.totalComImposto()));
+					System.out.printf("\n2- A VISTA - 10%% DESCONTO: R$%.2f",pagamento.pagarAVista());	
+					System.out.printf("\n3- CARTÃO - 1 VEZ:  R$%.2f SEM DESCONTO", pagamento.pagarCartao1Vez());
+					System.out.printf("\n4- CARTÃO - 2 VEZES - JUROS (10%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao2Vezes()/2),pagamento.pagarCartao2Vezes());
+					System.out.printf("\n5- CARTÃO - 3 VEZES - JUROS (15%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao3Vezes()/3),pagamento.pagarCartao3Vezes());
 					System.out.print("\n\nInsira Aqui: ");
 					 char opcao = ler.next().charAt(0);
 					linha(80);
@@ -145,7 +157,7 @@ public static void main(String[] args) {
 					{
 						pagamento.setOpcaoPagamento(opcao);
 						pedido.notaFiscal();
-						System.out.printf("À VISTA - 10%% DESCONTO: R$%.2f",pagamento.pagarAVista(pagamento.totalComImposto()));
+						System.out.printf("À VISTA - 10%% DESCONTO: R$%.2f",pagamento.pagarAVista());
 						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
 						break;
 					}
@@ -153,7 +165,7 @@ public static void main(String[] args) {
 					{
 						pagamento.setOpcaoPagamento(opcao);
 						pedido.notaFiscal();
-						System.out.printf("CARTÃO - 1 VEZ:  R$%.2f SEM DESCONTO", pagamento.pagarCartao1Vez(pagamento.totalComImposto()));
+						System.out.printf("CARTÃO - 1 VEZ:  R$%.2f SEM DESCONTO", pagamento.pagarCartao1Vez());
 						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
 						break;
 					}
@@ -161,7 +173,7 @@ public static void main(String[] args) {
 					{
 						pagamento.setOpcaoPagamento(opcao);
 						pedido.notaFiscal();
-						System.out.printf("CARTÃO - 2 VEZES - JUROS (10%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao2Vezes(pagamento.totalComImposto())/2),pagamento.pagarCartao2Vezes(pagamento.totalComImposto()));
+						System.out.printf("CARTÃO - 2 VEZES - JUROS (10%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao2Vezes()/2),pagamento.pagarCartao2Vezes());
 						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
 						break;
 					}
@@ -169,10 +181,11 @@ public static void main(String[] args) {
 					{
 						pagamento.setOpcaoPagamento(opcao);
 						pedido.notaFiscal();
-						System.out.printf("CARTÃO - 3 VEZES - JUROS (15%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao3Vezes(pagamento.totalComImposto())/3),pagamento.pagarCartao3Vezes(pagamento.totalComImposto()));
+						System.out.printf("CARTÃO - 3 VEZES - JUROS (15%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao3Vezes()/3),pagamento.pagarCartao3Vezes());
 						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
 						break;
-					}else
+					}
+					else
 					{
 					System.out.println("\nOpção inválida!\nTente novamente\n");
 					}
@@ -193,6 +206,7 @@ public static void main(String[] args) {
 	}
 
 	/* Imprime uma linha de tamanho determinado */
+
 	public static void linha(int tamanho) {
 		for (int i = 1; i < tamanho; i++) {
 			System.out.print("_");
