@@ -7,7 +7,6 @@ public class Estoque {
 	
 	private List <Produto> produtos = new ArrayList<>();
 	
-	
 	public int encontrarIndice(String codProduto) {
 		int indice = -1;
 		int n = produtos.size();

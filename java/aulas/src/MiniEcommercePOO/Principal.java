@@ -14,12 +14,22 @@ public static void main(String[] args) {
 		char comando;
 		String codProduto;
 		int qtdProduto;
-		char comandoExterno = 'n';
-		do { //loop principal. Sempre que inicia, os dados do usu�rio come�am zerados
+		char comandoExterno;
+		do { //loop principal. Sempre que inicia, os dados do usuário começam zerados
 			Cliente cliente = new Cliente();
 			Pedido pedido = new Pedido();
+			System.out.println("───▄▀▀▀▄▄▄▄▄▄▄▀▀▀▄───\n"
+					+ "───█▒▒░░░░░░░░░▒▒█───\n"
+					+ "────█░░█░░░░░█░░█────\n"
+					+ "─▄▄──█░░░▀█▀░░░█──▄▄─\n"
+					+ "█░░█─▀▄░░░░░░░▄▀─█░░█\n"
+					+ "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█\n"
+					+ "█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█\n"
+					+ "█░░║║║╠─║─║─║║║║║╠─░░█\n"
+					+ "█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█\n"
+					+ "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 			linha(90);
-			System.out.print("\nPAGUFE PET SHOP\nAqui, seu animal � mais feliz!\n");
+			System.out.print("\nPAGUFE PET SHOP\nAqui, seu animal é mais feliz!\n");
 			linha(90);
 			System.out.print("\nInforme seu nome: ");
 			cliente.setNome(ler.nextLine());
@@ -30,7 +40,8 @@ public static void main(String[] args) {
 				sexo = ler.next().toUpperCase().charAt(0);
 			}
 			cliente.setSexo(sexo);
-			do { // la�o dos comandos do usu�rio
+			System.out.println("Olá, "+cliente.tratamento()+" "+cliente.getNome()+"! Agradecemos por entrar no site do PAGUFE PET SHOP! Faça seu pet feliz!");
+			do { // laço dos comandos do usuário
 				linha(90);
 				estoque.imprimirLista();
 				linha(90);
@@ -39,16 +50,16 @@ public static void main(String[] args) {
 				comando = ler.next().toLowerCase().charAt(0);
 				// comando para adicionar um produto ao carrinho
 				if (comando == 'a') {
-					System.out.print("\nC�DIGO DO PRODUTO: ");
+					System.out.print("\nCÓDIGO DO PRODUTO: ");
 					ler.nextLine(); // para limpar o final da linha
 					codProduto = ler.nextLine();
 					
 					int indiceEstoque = estoque.encontrarIndice(codProduto);
-					if (indiceEstoque > -1) { //verifica se o c�digo do produto foi encontrado ou n�o
+					if (indiceEstoque > -1) { //verifica se o código do produto foi encontrado ou não
 						do {
 							System.out.print("\nQUANTIDADE DO PRODUTO: ");
 							qtdProduto = ler.nextInt();
-							boolean result = pedido.adicionarProdutos(codProduto, indiceEstoque, qtdProduto, estoque);
+							boolean result = pedido.adicionarProdutos(codProduto, qtdProduto, estoque);
 							linha(90);
 							if (result) {
 								System.out.print("\n\n\n***PRODUTO ADICIONADO AO CARRINHO***\n\n\n");
@@ -56,7 +67,7 @@ public static void main(String[] args) {
 							}
 							else {
 								if (estoque.qtdProdutosIndice(indiceEstoque) > 0) {
-									System.out.print("\nH� APENAS " + estoque.qtdProdutosIndice(indiceEstoque) + " UNIDADES DISPON�VEIS\nDESEJA ADICIONAR OUTRA QUANTIDADE? [s/n]: ");
+									System.out.print("\nHÁ APENAS " + estoque.qtdProdutosIndice(indiceEstoque) + " UNIDADES DISPONÍVEIS\nDESEJA ADICIONAR OUTRA QUANTIDADE? [s/n]: ");
 									comando = ler.next().toLowerCase().charAt(0);
 								}
 								else
@@ -65,20 +76,20 @@ public static void main(String[] args) {
 						} while (comando == 's');
 					}
 					else {
-						System.out.print("\n\n\n***C�DIGO DO PRODUTO N�O ENCONTRADO***\n\n\n");
+						System.out.print("\n\n\n***CÓDIGO DO PRODUTO NÃO ENCONTRADO***\n\n\n");
 					}
 				}
 				// comando para retirar um produto ao carrinho
 				else if (comando == 'r') {
-					System.out.print("\nC�DIGO DO PRODUTO: ");
+					System.out.print("\nCÓDIGO DO PRODUTO: ");
 					ler.nextLine();
 					codProduto = ler.nextLine();
 					int indiceCarrinho = pedido.encontrarIndice(codProduto);
-					if (indiceCarrinho > -1) { //verifica se o c�digo do produto existe no carrinho
+					if (indiceCarrinho > -1) { //verifica se o código do produto existe no carrinho
 						do {
 							System.out.print("\nQUANTIDADE A REMOVER: ");
 							qtdProduto = ler.nextInt();
-							boolean result = pedido.removerProdutos(codProduto, indiceCarrinho, qtdProduto, estoque);
+							boolean result = pedido.removerProdutos(codProduto, qtdProduto, estoque);
 							linha(90);
 							if (result) {
 								System.out.print("\n\n\n***PRODUTO(S) RETIRADO(S) DO CARRINHO***\n\n\n");
@@ -86,54 +97,96 @@ public static void main(String[] args) {
 							}
 							else {
 								if (pedido.qtdProdutosIndice(indiceCarrinho) > 0) {
-									System.out.print("\nH� APENAS " + pedido.qtdProdutosIndice(indiceCarrinho) + " UNIDADES DISPON�VEIS\nDESEJA ADICIONAR OUTRA QUANTIDADE? [s/n]: ");
+									System.out.print("\nHÁ APENAS " + pedido.qtdProdutosIndice(indiceCarrinho) + " UNIDADES DISPONÍVEIS\nDESEJA ADICIONAR OUTRA QUANTIDADE? [s/n]: ");
 									comando = ler.next().toLowerCase().charAt(0);
 								}
 								else
-									System.out.print("\n\n***N�O H� PRODUTOS DESTE TIPO NO SEU CARRINHO***\n\n");
+									System.out.print("\n\n***NÃO HÁ PRODUTOS DESTE TIPO NO SEU CARRINHO***\n\n");
 							}
 						} while (comando == 's');
 					}
 					else {
 						linha(90);
-						System.out.print("\n\n***C�DIGO DE PRODUTO N�O ENCONTRADO NO SEU CARRINHO***\n\n");
+						System.out.print("\n\n***CÓDIGO DE PRODUTO NÃO ENCONTRADO NO SEU CARRINHO***\n\n");
 					}
 				}
 				// comando para exibir o carrinho
 				else if (comando == 'c') {
 					pedido.imprimirCarrinho();
 				}
-				// comando para sair do loop do usu�rio
+				// comando para sair do loop do usuário
 				else if (comando == 's') {
 					break;
 				}
 				// comando para finalizar a compra
 				else if (comando == 'f') {
-					boolean result = true; //pedido.pagamento(estoque, cliente);
-					
 					Pagamento pagamento = new Pagamento();
-					
+					pedido.subTotal();
 					pagamento.setTotalGeral(pedido.getSubTotal());
-					System.out.println(pedido.getSubTotal());
+					
 					System.out.printf("\nTotal Geral: R$ %.2f + IMPOSTO (9%%): R$ %.2f  Total com imposto: R$ %.2f \n",pagamento.getTotalGeral(),pagamento.valorImposto(),pagamento.totalComImposto());
+					System.out.printf("\nEscolha a forma de pagamento\n");
+					System.out.print("\n1- ZERAR CARRINHO");
+					System.out.printf("\n2- A VISTA - 10%% DESCONTO: R$%.2f",pagamento.pagarAVista(pagamento.totalComImposto()));	
+					System.out.printf("\n3- CARTÃO - 1 VEZ:  R$%.2f SEM DESCONTO", pagamento.pagarCartao1Vez(pagamento.totalComImposto()));
+					System.out.printf("\n4- CARTÃO - 2 VEZES - JUROS (10%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao2Vezes(pagamento.totalComImposto())/2),pagamento.pagarCartao2Vezes(pagamento.totalComImposto()));
+					System.out.printf("\n5- CARTÃO - 3 VEZES - JUROS (15%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao3Vezes(pagamento.totalComImposto())/3),pagamento.pagarCartao3Vezes(pagamento.totalComImposto()));
+					System.out.print("\n\nInsira Aqui: ");
+					 char opcao = ler.next().charAt(0);
+					linha(80);
 					
-					if (result) // se result for verdadeiro, sai do loop do usu�rio
-						
 					
-						System.out.println(" Total Geral");
-					else { // se result for falso, o carrinho est� vazio, por isso n�o foi poss�vel finalizar. Avisa isso ao usu�rio 
-						linha(90);
-						System.out.println("\n\n***N�O FOI POSS�VEL FINALIZAR A COMPRA, POIS O CARRINHO EST� VAZIO***\n\n");
+					if ( opcao == '1')
+					{
+						pedido.zerarCarrinho(estoque);
+						System.out.println("Seu carrinho foi zerado!");
 					}
+					else if (opcao == '2' )
+					{
+						pagamento.setOpcaoPagamento(opcao);
+						pedido.notaFiscal();
+						System.out.printf("À VISTA - 10%% DESCONTO: R$%.2f",pagamento.pagarAVista(pagamento.totalComImposto()));
+						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
+						break;
+					}
+					else if (opcao == '3' )
+					{
+						pagamento.setOpcaoPagamento(opcao);
+						pedido.notaFiscal();
+						System.out.printf("CARTÃO - 1 VEZ:  R$%.2f SEM DESCONTO", pagamento.pagarCartao1Vez(pagamento.totalComImposto()));
+						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
+						break;
+					}
+					else if (opcao == '4' )
+					{
+						pagamento.setOpcaoPagamento(opcao);
+						pedido.notaFiscal();
+						System.out.printf("CARTÃO - 2 VEZES - JUROS (10%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao2Vezes(pagamento.totalComImposto())/2),pagamento.pagarCartao2Vezes(pagamento.totalComImposto()));
+						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
+						break;
+					}
+					else if (opcao == '5' )
+					{
+						pagamento.setOpcaoPagamento(opcao);
+						pedido.notaFiscal();
+						System.out.printf("CARTÃO - 3 VEZES - JUROS (15%%) - PARCELAS DE:  R$%.2f - TOTAL DE: R$%.2f",(pagamento.pagarCartao3Vezes(pagamento.totalComImposto())/3),pagamento.pagarCartao3Vezes(pagamento.totalComImposto()));
+						System.out.println("\nAgrademos pela compra, "+cliente.tratamento()+" "+cliente.getNome()+". Volte sempre !");
+						break;
+					}else
+					{
+					System.out.println("\nOpção inválida!\nTente novamente\n");
+					}
+					
 				}
+				
 			} while (true);
 			
 			linha(90);
-			System.out.println("\nDESEJA SAIR DO PROGRAMA? [s/n]");
+			System.out.println("\nDESEJA REINICIAR O PROGRAMA? [s/n]");
 			comandoExterno = ler.next().toLowerCase().charAt(0);
 			ler.nextLine();
 			
-		} while (comandoExterno == 'n');
+		} while (comandoExterno == 's');
 		
 		ler.close();
 		System.out.println("\nPROGRAMA FINALIZADO");
